@@ -60,4 +60,33 @@ public class HashTableSeperateChaining<K, V> implements Iterable<K> {
     private int normalizeIndex(int keyHash) {
         return (keyHash & 0x7FFFFFFF) % capacity;
     } 
+
+    public void clear() {
+        Arrays.fill(table, null);
+        size = 0;
+    }
+
+    public boolean containsKey(K key) {
+        return hasKey(key);
+    }
+
+    public boolean hasKey(K key) {
+        int bucketIndex = normalizeIndex(key.hashCode());
+        return bucketSeekEntry(bucketIndex, key) != null;
+    }
+
+    public V put(K key, V value) {
+        return insert(key, value);
+    }
+
+    public V add(K key, V value) {
+        return insert(key, value);
+    }
+
+    public V insert(K key, V value) {
+        if (key == null) throuw new IllegalArgumentException("Null key");
+        Entry<K, V> newEntry = new Entry<>(key, value);
+        int bucketIndex = normalizeIndex(newEntry.hash);
+        return bucketInsertEntry(bucketIndex, newEntry);
+    }
 }
