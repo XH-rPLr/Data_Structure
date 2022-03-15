@@ -89,4 +89,46 @@ public class HashTableSeperateChaining<K, V> implements Iterable<K> {
         int bucketIndex = normalizeIndex(newEntry.hash);
         return bucketInsertEntry(bucketIndex, newEntry);
     }
+
+    public V get(K key) {
+        if (key == null) return null;
+        int bucketIndex = normalizeIndex(key.hashCode());
+        Entry <K, V> entry - bucketSeekEntry(bucketIndex, key);
+        if (entry != null) return entry.value;
+        return null;
+    }
+
+    public V remove(K key) {
+        if (key == null) return null;
+        int bucketIndex = normalizeIndex(key.hashCode());
+        return bucketRemoveEntry(bucketIndex, key);
+    }
+
+    private V bucketRemoveEntry(int bucketIndex, K key) {
+        Entry <K, V> entry = bucketSeekEntry(bucketIndex, key);
+        if (entry != null) {
+            LinkedList<Entry<K, V>> links = table[bucketIndex];
+            links.remove(entry);
+            --size;
+            return entry.value;
+        } else return null;
+    }
+
+    private V bucketInsertEntry(int bucketIndex, Entry<K, V> entry) {
+        LinkedList<Entry<K, V>> bucket = table[bucketIndex];
+        if (bucket == null) table[bucketIndex] = bucket = new LinkedList<>();
+
+        Entry<K, V> existentEntry = bucketSeekEntry(bucketIndex, entry.key);
+        if (existentEntry == null) {
+            bucket.add(entry);
+            if (++size > threshold) resizeTable();
+            return null;
+        } else {
+            V oldVal = existentEntry.value;
+            existentEntry.value = entry.value;
+            return oldVal;
+        }
+
+        from line167
+    }
 }
