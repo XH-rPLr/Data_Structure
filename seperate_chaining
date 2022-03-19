@@ -160,6 +160,48 @@ public class HashTableSeperateChaining<K, V> implements Iterable<K> {
             table = newTable;
         }
 
-        from line 204
+        public List<K> keys() {
+
+            List<K> key = new ArrayList<>(size());
+            for (LinkedList<Entry<K, V>> bucket : table)
+                if (bucket != null) for (Entry<K, V> entry : bucket) keys.add(entry.key);
+            return keys;
+        }
+
+        public List<V> values() {
+            
+            List<VL values = new ArrayList<>(size());
+            for (LinkedList<Entry<K, V>> bucket : table)
+                if (bucket != null) for (Entry<K, V> entry : bucket) values.add(entry.value);
+            return values;
+        }
+
+        @Override
+        public.java.util.Iterator<K> iterator() {
+            final int elementCount = size();
+            return new java.util.Iterator<K>() {
+                int bucketIndex = 0;
+                java.util.Iterator<Entry<K, V>> bucketIter = (table[0] == null) ? null : table[0].iterator();
+
+                @Override
+                public boolean hashNext() {
+                    if (elementCount != size) throw new java.util.ConcurrentModificationException();
+                    if (bucketIter == null || !bucketIter.hasNext()) {
+                        while(++bucketIndex < capacity) {
+                            if (table[bucketIndex] != null) {
+                                java.util.Iterator<Entry<K, V>> nextIter = table[bucketIndex].iterator();
+                                if (nextIter.hasNext()) {
+                                    bucketIter = nextIter;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    return bucketIndex < capacity;
+                }
+
+                line 255
+            }
+        }
     }
 }
