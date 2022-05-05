@@ -1,0 +1,7 @@
+public class AVLTreeRecursive <T extends Comparable<T>> implements Iterable<T> {
+    public class Node implements PrintableNode {
+
+        //bf short for balance factor
+        public int bf;
+    }
+}
