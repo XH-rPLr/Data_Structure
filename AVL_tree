@@ -3,5 +3,30 @@ public class AVLTreeRecursive <T extends Comparable<T>> implements Iterable<T> {
 
         //bf short for balance factor
         public int bf;
-    }
+
+        public T value;
+
+        public int height;
+
+        public Node left, right;
+
+        public Node(T value) {
+            this.value = value;
+        }
+
+        @Override
+        public PrintableNode getLeft() {
+            return left;
+        }
+
+        @Override
+        public PrintableNode getRight() {
+            return right;
+        }
+
+        @Override
+        public String getText() {
+            return value.toString();
+        }
+    } 
 }
